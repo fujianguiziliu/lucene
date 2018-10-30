@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lombok"/>
+	<classpathentry kind="lib" path="D:/Downloads/day59 lucene/资料/课程所需jar/lucene-analyzers-common-4.10.4.jar"/>
+	<classpathentry kind="lib" path="D:/Downloads/day59 lucene/资料/课程所需jar/lucene-core-4.10.4.jar" sourcepath="D:/Downloads/day59 lucene/资料/jar包/lucene-4.10.4-src.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
