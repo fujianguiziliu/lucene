@@ -21,12 +21,12 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.junit.Test;
 
-public class HelloLuceneTest {
+public class FieldLuceneTest {
 
 	String content1 = "hello world";
 	String content2 = "hello java world";
 	String content3 = "hello lucene world";
-	String  indexPath = "hello";
+	String  indexPath = "fieldType";
 	private Analyzer analyzer = new StandardAnalyzer();
 	
 	@Test
@@ -34,33 +34,40 @@ public class HelloLuceneTest {
 		
 		Directory d = FSDirectory.open(new File(indexPath));
 		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_4,analyzer);
+		config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
 		IndexWriter writer = new IndexWriter(d, config);
 		
 		FieldType type = new FieldType();
 		type.setIndexed(true);//是否需要索引
-		type.setStored(true);//是否需要存储
+		type.setStored(false);//是否需要存储
+		//type.setTokenized(true);//是否需要分词
 		
+		FieldType type2 = new FieldType();
+		type2.setIndexed(true);
+		type2.setStored(true);
+		//type2.setTokenized(false);
 		
 		Document doc1 = new Document();
 		doc1.add(new Field("title","doc1",type));
-		doc1.add(new Field("content",content1,type));
+		doc1.add(new Field("content",content1,type2));
 		writer.addDocument(doc1);
 
 		
 		Document doc2 = new Document();
 		doc2.add(new Field("title","doc2",type));
-		doc2.add(new Field("content",content2,type));
+		doc2.add(new Field("content",content2,type2));
 		writer.addDocument(doc2);
 
 		
 		Document doc3 = new Document();
 		doc3.add(new Field("title","doc3",type));
-		doc3.add(new Field("content",content3,type));
+		doc3.add(new Field("content",content3,type2));
 		writer.addDocument(doc3);
 		
 		writer.commit();
 		writer.close();
 	}
+
 	@Test
 	public void testSearch() throws Exception{
 		//创建一个索引查询器
@@ -68,7 +75,7 @@ public class HelloLuceneTest {
 		IndexReader r = DirectoryReader.open(d);
 		IndexSearcher searcher = new  IndexSearcher(r);
 		QueryParser parser = new QueryParser("content",analyzer);
-		Query query = parser.parse("hello");
+		Query query = parser.parse("java");
 		TopDocs tds = searcher.search(query, 1000);
 		System.out.println("符合条件的记录数："+tds.totalHits);
 	    ScoreDoc[] scoreDocs =  tds.scoreDocs;
@@ -82,7 +89,5 @@ public class HelloLuceneTest {
 		    System.out.println("正文内容：" +doc.get("content"));
 		}
 	}
-	
-	
 	
 }
